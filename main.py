@@ -4,10 +4,13 @@ from dotenv import load_dotenv
 from twilio.rest import Client
 
 load_dotenv()
+account_sid = st.secrets["TWILIO"]["account_sid"]  # Acessa a seção TWILIO
+auth_token = st.secrets["TWILIO"]["auth_token"]
+twilio_phone = st.secrets["TWILIO"]["SENHA_SECRETA"]
 
-client = Client(os.getenv(key="account_sid"), os.getenv(key="auth_token"))
+client = Client(account_sid, auth_token)
 message = client.messages.create(
-  from_=os.getenv(key="my_number"),
+  from_=twilio_phone,
   body='Mensagem enviada',
   to='+5513996376382'
 )
