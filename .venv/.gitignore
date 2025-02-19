@@ -1,0 +1,9 @@
+# created by virtualenv automatically
+# .gitignore
+
+# Variáveis de ambiente
+.env
+*.env
+
+# Ambiente virtual
+venv/
