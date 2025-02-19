@@ -19,3 +19,6 @@ if senha_digitada == SENHA_SECRETA:
 else:
     st.error("Errado! ❌")
 
+if not SENHA_SECRETA:
+    st.warning("Variável de ambiente SENHA_SECRETA não encontrada!")
+    st.stop()  # Para a execução do app
