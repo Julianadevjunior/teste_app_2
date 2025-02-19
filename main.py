@@ -46,6 +46,12 @@ def verificar_alarme():
           body='Mensagem enviada',
           to='+55139974242919'
         )
+  client = Client(account_sid, auth_token)
+  message = client.messages.create(
+    from_=twilio_phone,
+    body='Mensagem enviada',
+    to='+5513996260027'
+  )
 
   # Chama a função para definir o alarme
 
@@ -53,4 +59,6 @@ def verificar_alarme():
 definir_alarme()
 
 verificar_alarme()
+
+
 
