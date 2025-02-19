@@ -11,3 +11,7 @@ message = client.messages.create(
   body='Mensagem enviada',
   to='+5513996376382'
 )
+
+# print(os.getenv(key="account_sid"))
+# print(os.getenv(key="auth_token"))
+# print(os.getenv(key="my_number"))
