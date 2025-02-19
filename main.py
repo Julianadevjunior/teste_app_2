@@ -1,19 +1,13 @@
 import streamlit as st
+import os
+from dotenv import load_dotenv
+from twilio.rest import Client
 
-# Carrega a variável do ambiente (local) ou dos secrets (deploy)
-def get_secret(key):
-    try:
-        # Modo local (usa .env)
-        from dotenv import load_dotenv
-        import os
-        load_dotenv()
-        return os.getenv(key)
-    except:
-        # Modo deploy (usa secrets do Streamlit)
-        return st.secrets[key]
+load_dotenv()
 
-# Acessa a variável
-SENHA_SECRETA = get_secret("SENHA_SECRETA")
-
-# Resto do código...
-st.write(SENHA_SECRETA)
+client = Client(os.getenv(key="account_sid"), os.getenv(key="auth_token"))
+message = client.messages.create(
+  from_=os.getenv(key="my_number"),
+  body='Mensagem enviada',
+  to='+5513996376382'
+)
