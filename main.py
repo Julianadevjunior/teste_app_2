@@ -16,3 +16,4 @@ def get_secret(key):
 SENHA_SECRETA = get_secret("SENHA_SECRETA")
 
 # Resto do código...
+st.write(SENHA_SECRETA)
