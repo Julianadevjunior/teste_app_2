@@ -1,65 +1,28 @@
 import datetime
-
 from twilio.rest import Client
 import streamlit as st
 import pandas as pd
 import os
+import requests
+link_google = "https://docs.google.com/spreadsheets/d/1NMM-IHZgF3aM0kqqDcGq_iRakOt5hogzkqxSrb2zK2E/edit?usp=sharing"
+Código_de_implantação = "AKfycbxazn8Ci1UJw68ujjuXAY4PGfN-eOaTbgWWzZCwQkCogIwawe2OPWtVkRgC8KywSKo"
+url_planilha = "https://script.google.com/macros/s/AKfycbxazn8Ci1UJw68ujjuXAY4PGfN-eOaTbgWWzZCwQkCogIwawe2OPWtVkRgC8KywSKo/exec"
 
-import mysql.connector
+# Link correto de implantação do Google Apps Script
+codigo_implantacao = "AKfycbxazn8Ci1UJw68ujjuXAY4PGfN-eOaTbgWWzZCwQkCogIwawe2OPWtVkRgC8KywSKo"
+url = f"https://script.google.com/macros/s/{codigo_implantacao}/exec"
 
-# Conectar ao banco MySQL do Railway
-conexao = mysql.connector.connect(
-    host=st.secrets["mysql"]["host"],
-    user=st.secrets["mysql"]["user"],
-    password=st.secrets["mysql"]["password"],
-    database=st.secrets["mysql"]["database"]
-)
-# Executar a conexão do comando acima
-cursor = conexao.cursor()
-nome = "Luis"
-telefone = "11998542631"
-bairro = "Ocian"
-valor = 380000
-descricao = "Lazer completo"
-data_in = datetime.datetime.today().now()
-data_upload = datetime.datetime.today().now()
-data_agenda = datetime.datetime.today().now()
+# Faz a requisição
+response = requests.get(url)
 
+# Verifica o conteúdo da resposta
+if response.status_code == 200:
+    try:
+        data = response.json()
+        df = pd.DataFrame(data[1:], columns=data[0])  # Cabeçalho + dados
+        st.dataframe(df)
+    except requests.exceptions.JSONDecodeError:
+        st.error("Erro ao decodificar JSON. Verifique a resposta da URL.")
+else:
+    st.error(f"Erro na requisição: {response.status_code}")
 
-# CREATE
-def create(nome="", telefone="", bairro="", valor="", descricao="", data_in="", data_update="", data_agenda=""):
-    comando = f'INSERT INTO tabela_teste (nome, telefone, bairro, valor, descricao, data_in, data_upload, data_agenda) VALUES ("{nome}", "{telefone}", "{bairro}", "{valor}", "{descricao}", "{data_in}", "{data_upload}", "{data_agenda}")'
-    cursor.execute(comando)  # EXECUTAR O COMANDO
-    conexao.commit()  # SALVA NO BANCO DE DADOS
-
-
-# READ
-def read(tabela):
-    comando = f'SELECT * FROM {tabela}'
-    cursor.execute(comando)  # EXECUTAR O COMANDO
-    resultado = cursor.fetchall()
-    return resultado
-
-
-# UPDATE
-def update(valor, idx, coluna):
-    comando = f'UPDATE tabela_teste SET {coluna} = "{valor}" WHERE idtabela_teste = {idx}'
-    cursor.execute(comando)  # EXECUTAR O COMANDO
-    conexao.commit()  # SALVA NO BANCO DE DADOS
-
-
-# DELETE
-def delete(idx):
-    comando = f'DELETE FROM tabela_teste WHERE idtabela_teste = {idx}'
-    cursor.execute(comando)  # EXECUTAR O COMANDO
-    conexao.commit()  # SALVA NO BANCO DE DADOS
-
-
-# create(nome, telefone, bairro, valor, descricao, data_in, data_upload, data_agenda)
-
-for item in read("tabela_teste"):
-    st.text(item[0])
-st.write(nome)
-# Fechar conexão
-cursor.close()
-conexao.close()
