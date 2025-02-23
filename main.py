@@ -7,14 +7,13 @@ import os
 
 import mysql.connector
 
-# Conexão com o MySQL
+# Conectar ao banco MySQL do Railway
 conexao = mysql.connector.connect(
-    host='127.0.0.1',  # Ou 'localhost'
-    user='root',  # Seu usuário
-    password='4m0@p40Ma',  # Sua senha
-    database='teste'  # Nome do banco de dados
+    host=st.secrets["mysql"]["host"],
+    user=st.secrets["mysql"]["user"],
+    password=st.secrets["mysql"]["password"],
+    database=st.secrets["mysql"]["database"]
 )
-
 # Executar a conexão do comando acima
 cursor = conexao.cursor()
 nome = "Luis"
@@ -60,9 +59,7 @@ def delete(idx):
 
 for item in read("tabela_teste"):
     st.text(item[0])
-
-print(st.secrets["TWILIO"]["passwordmysql"])
-
+st.write(nome)
 # Fechar conexão
 cursor.close()
 conexao.close()
