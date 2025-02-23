@@ -59,6 +59,7 @@ def verificar_alarme(tel):
 definir_alarme()
 telefone = st.text_input(label="telefone")
 verificar_alarme(telefone)
+print('oi')
 
 
 
