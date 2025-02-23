@@ -26,7 +26,7 @@ def definir_alarme():
 # Função para verificar se o alarme deve tocar
 
 
-def verificar_alarme():
+def verificar_alarme(tel):
   # Verifica o alarme em tempo real sem travar o Streamlit
 
   load_dotenv()
@@ -44,21 +44,21 @@ def verificar_alarme():
         message = client.messages.create(
           from_=twilio_phone,
           body='Mensagem enviada',
-          to='+5513974242919'
+          to='+5513996376382'
         )
   client = Client(account_sid, auth_token)
   message = client.messages.create(
     from_=twilio_phone,
     body='Mensagem enviada',
-    to='+5513996260027'
+    to=tel
   )
 
   # Chama a função para definir o alarme
 
 
 definir_alarme()
-
-verificar_alarme()
+telefone = st.text_input(label="telefone")
+verificar_alarme(telefone)
 
 
 
