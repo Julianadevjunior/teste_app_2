@@ -44,7 +44,7 @@ def verificar_alarme():
         message = client.messages.create(
           from_=twilio_phone,
           body='Mensagem enviada',
-          to='+55139974242919'
+          to='+5513974242919'
         )
   client = Client(account_sid, auth_token)
   message = client.messages.create(
